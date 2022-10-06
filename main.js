@@ -8,6 +8,7 @@ const progress = document.querySelector('.progress');
 const title = document.querySelector('.song');
 const cover = document.querySelector('.cover__img');
 const imgSrc = document.querySelector('.img__src');
+const listPlayer = document.querySelector('.list-player');
 
 
 // Названия песен
@@ -17,13 +18,33 @@ const songs = ['Молитва за Україну', 'Not an Idol - Мосты',
 let songIndex = 0
 
 //Download song
-function loadSong (song) {
+function loadSong (song, idx = songIndex) {
 	title.innerHTML = song
 	audio.src = `audio/${song}.mp3`
 	cover.src = `img/cover${songIndex + 1}.jpg`
 }
 
 loadSong(songs[songIndex])
+
+// List of songs
+function listOfSongs () {
+	return songs.map(song => {
+		const item = document.createElement('p');
+		item.classList.add('list-player_item')
+		item.innerHTML = song;
+		item.addEventListener('click', ({target}) => {
+			songs.forEach((el, idx) => {
+				if (el === target.innerText) {
+					loadSong(target.innerText, idx);
+				}
+			});
+			playSong();
+		})
+		listPlayer.appendChild(item);
+		return item;
+	});
+}
+listOfSongs();
 
 //play
 function playSong() {
@@ -41,14 +62,16 @@ function pauseSong () {
 	audio.pause()
 }
 
-playBtn.addEventListener('click', () => {
+function runSong () {
 	const isPlaying = player.classList.contains('play')
 	if (isPlaying) {
 		pauseSong()
 	} else {
 		playSong()
 	}
-})
+}
+
+playBtn.addEventListener('click', runSong);
 
 // Next song
 function nextSong () {
@@ -99,3 +122,4 @@ progressContainer.addEventListener('click', setProgress)
 
 //Autoplay 
 audio.addEventListener('ended', nextSong)
+
