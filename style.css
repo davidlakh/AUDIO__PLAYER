@@ -105,6 +105,17 @@ button {
 	height: 40px;
 }
 
+.list-player_item {
+	cursor: pointer;
+	margin: 10px;
+	color: dodgerblue;
+}
+
+.list-player_item:hover {
+	transition: .3 linear;
+	color: burlywood;
+}
+
 @keyframes rotateAnimation {
 	0% {
 		transform: rotate(0);
